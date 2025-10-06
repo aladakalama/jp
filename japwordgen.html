@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <title>בחירה ותרגום ממערכים מקבילים</title>
+  <style>
+    html, body { font-family: system-ui, Arial, sans-serif; font-size: 20px; margin: 0; padding: 24px;text-align:left; }
+    label, input, button { font-size: 40px; }
+	#output1,#output2{font-size: 60px;margin-top:50px;}
+    .row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-block: 12px; }
+    #output, #translation { margin-top: 16px; padding: 12px; border: 1px solid #ddd; border-radius: 8px; min-height: 2.5em; white-space: pre-wrap;font-size: 40px; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; font-size: 18px; }
+  </style>
+</head>
+<body>
+  <h1>No-Repeat Random Picker</h1>
+
+  
+  <input id="count" type="number" value="3" min="1" max="5" /><label for="count">Range (default 3):</label>
+
+  <div style="margin-top:40px;dir:rtl;">
+    
+    <button id="btnTranslate">Translation</button><button id="btnPick">Random</button><button id="btnPick2">Rando2</button>
+  </div>
+
+  <div id="output1"></div>
+  <div id="output2"></div>
+
+  <script>
+  /*
+    const array1 = [
+  "בוקר טוב",
+  "ערב טוב",
+  "נעים להכיר",
+  "אני",
+  "שם",
+  "סליחה / סליחה להפריע",
+  "מצטער",
+  "תודה רבה",
+  "בבקשה / אשמח לעזרתך","נעים להכיר.",
+  "אני ערן.",
+  "קוראים לי ערן.",
+  "איך קוראים לך?",
+  "הגעתי מישראל.",
+  "אני מבין יפנית קצת.",
+  "עוד פעם בבקשה.","לילה טוב",
+  "לאט בבקשה.","lively","quiet","clean/beautiful","family","busy","office worker","noisy","famous","college student","my wife","my daughter","my husband","my son","smart","שלום",
+  "לחם","סנדויץ","אוכל","כל יום","קפה","מיץ","שותה","כל בוקר","ארוחת בוקר","ארוחת צהריים","ארוחת צהריים בקופסא","ארוחת ערב","כל ערב"
+  ,"ארוחת בוקר","ארוחת צהריים","ארוחת צהריים בקופסא","ארוחת ערב","כל ערב",
+  "מצטער","בבקשה","קוראים לי ערן.","הגעתי מישראל.",
+  "אני מבין יפנית קצת.",
+  "עוד פעם בבקשה.","לילה טוב",
+  "לאט בבקשה.",
+  "לחם","סנדויץ","אוכל","כל יום","קפה","מיץ","שותה","כל בוקר","ארוחת בוקר","ארוחת צהריים","ארוחת צהריים בקופסא","ארוחת ערב","כל ערב"
+  ];
+  //alert(array1.length);
+   
+
+
+
+   const array2 = [
+  "ohayō gozaimasu",
+  "konbanwa",
+  "hajimemashite",
+  "watashi",
+  "namae",
+  "sumimasen",
+  "gomen nasai",
+  "arigatō gozaimasu",
+  "onegai shimasu","hajimemashite.",
+  "watashi wa Eran desu.",
+  "Eran to iimasu.",
+  "o-namae wa?",
+  "Isuraeru kara kimashita.",
+  "nihongo wa sukoshi dake wakarimasu.",
+  "mō ichido onegai shimasu.","oyasumi",
+  "yukkuri onegai shimasu.","ni gi ya ka","shi zu ka","ki re I","ka zo ku","I so ga shi","ka I sha I n","u ru sa I","yu u me I","da I ga ku se I","tsu ma","mu su me","o to wa","mu su ko","a ta ma ga I","konnichiwa",
+  "pan","<b>san</b> do ichi","ta be <b>ma</b> su ","ma ii ni <b>chi</b>","<b>ko</b> hii","<b>ju</b> su","<b>no</b> mi ma su","<b>ma</b> ii a sa","a <b>sa</b> go <b>han</b>","hi ru <b>go</b> han","<b>be</b> n to u","<b>ba</b> n go han","<b>ma</b> ii ban",
+  "gomen nasai","onegai shimasu","Eran to iimasu.","Isuraeru kara kimashita.",
+  "nihongo wa sukoshi dake wakarimasu.",
+  "mō ichido onegai shimasu.","oyasumi",
+  "yukkuri onegai shimasu.",
+  "pan","<b>san</b> do ichi","ta be <b>ma</b> su ","ma ii ni <b>chi</b>","<b>ko</b> hii","<b>ju</b> su","<b>no</b> mi ma su","<b>ma</b> ii a sa","a <b>sa</b> go han","hi ru <b>go</b> han","<b>be</b> n to u","<b>ba</b> n go han","<b>ma</b> ii ban"
+  
+  
+  ];
+  
+  
+  
+  
+const array1 = [
+  "מצטער","בבקשה","קוראים לי ערן.","הגעתי מישראל.",
+  "אני מבין יפנית קצת.",
+  "עוד פעם בבקשה.","לילה טוב",
+  "לאט בבקשה."];
+const array2 = ["gomen nasai",
+  
+  "onegai shimasu","Eran to iimasu.","Isuraeru kara kimashita.",
+  "nihongo wa sukoshi dake wakarimasu.",
+  "mō ichido onegai shimasu.","oyasumi",
+  "yukkuri onegai shimasu."];
+
+  const array1 = [
+  
+  ];
+const array2 = [
+  
+  ];
+  */
+  /* 
+ const array1 = ["לחם","סנדויץ","אוכל","כל יום","קפה","מיץ","שותה","כל בוקר","ארוחת בוקר","ארוחת צהריים","ארוחת צהריים בקופסא","ארוחת ערב","כל ערב"];
+const array2 = ["pan","<b>san</b> do ichi","ta be <b>ma</b> su ","ma ii ni <b>chi</b>","<b>ko</b> hii","<b>ju</b> su","<b>no</b> mi ma su","<b>ma</b> ii a sa","a <b>sa</b> go han","hi ru <b>go</b> han","<b>be</b> n to u","<b>ba</b> n go han","<b>ma</b> ii ban"];
+ 
+ 
+  
+
+
+ const array1 = ["מסעדה","אודון","טנפורה","ארוחה קבועה","ok then","אהממ","פעם אחת","פעמיים","שלוש פעמים","ארבע פעמים","כדור אורז","סלט","מרק מיסו","סובה","תה שחור","גלידה","קצת ","אייס קופי","למרות זאת"
+  
+  ];
+const array2 = [
+  "<b>re</b> su to ran","u<b>don</b>","<b>te n</b> pu ra","<b>te ii</b> sho ku","ja a","<b>e e</b> to","hi <b>to</b> stu","fu <b>ta</b> tsu","mi tsu","yo tsu","<b>o</b> ni gi ri","<b>sa</b> ra da","mi <b>so</b> shi ru","<b>so</b> ba","<b>ko</b> u cha","<b>a i</b> su ku ri mu","su <b>ko</b> shi","<b>ai</b> su ko hii","be <b>mo</b>"
+  ]; 
+  
+  
+ const array1 = ["שוחה","לבד","בסופי שבוע","דרמה","לבלות זמן ","עם","חברים","ספורט","בשבתות","קונה","לצאת לבילוי","משחקי וידאו","טניס","שוחה","ג’ודו","מדבר","סרטי וידאו","יום ראשון"];
+const array2 = ["o <b>yo</b> gi ma su","hi <b>to</b> ri de","<b>shu</b> ma tsu ","<b>do</b> ra ma","a <b>so</b> bi ma su","to","to <b>mo</b> da <b>shi</b>","su <b>po</b> tsu","do <b>yo</b> u bi","<b>kai</b> ma su","de <b>ka</b> ke ma su","<b>gee</b> mu","<b>te</b> ni su","<b>ni</b> chi yo bi","<b>ju</b> o dou","ha <b>na</b> shi ma su","<b>do</b> u ga","<b>ni</b> chi yo u bi"]; 
+  
+
+const array1 = ["רציפים","שער כרטיסים","קומה ראשונה","יש ","פח אשפה","כספומט","מעבר","אין","שירותים","מונית","קומה תת קרקעית","וויפי","מעלית","אאוטלט","רחוק","טלפון","קומה שנייה","מדרגות","קרוב","מכונות לממכר","בית קפה","יציאה","תאי אחסון"];
+const array2 = ["<b>ho</b> mu","<b>kai</b> sa tsu","<b>ii</b> kai","a ri <b>ma</b> su ka","go <b>mi</b> ba ko","ee ti <b>emu</b> wa","no ri <b>ka e</b>","a <b>ri</b> ma <b>sen</b>","o <b>te</b> a <b>rai</b>","<b>ta</b> ku shi","<b>chi</b> ka","<b>wa ii</b> fa ii","e re <b>be ta</b>","<b>con</b> sen to","toi","<b>den</b> wa","<b>ni</b> kai","<b>ka I</b> dan","chi <b>ka ii</b>","ji <b>han</b> ki","<b>ca</b> fe","<b>de</b> gu chi","<b>ko in</b> ro ka"];
+    */ 
+	
+	
+	 /* 
+	
+	//all:
+	const array1 = ["טלויזיה","סרטים","שומע","לעיתים קרובות","/קורא","משחק","חדשות","ספרים","מגזינים","/צופה","לפעמים","כדורס בסיס","כיף","מוסיקה","לחם","סנדויץ","אוכל","כל יום","קפה","מיץ","שותה","כל בוקר","ארוחת בוקר","ארוחת צהריים","ארוחת צהריים בקופסא","ארוחת ערב","כל ערב","מה השעה","בערך","השעה בערך שלוש","בגדים","ארנק","ישן","מזויע","לא ממש אוהב","טישרט","חצאית","נעליים","אני רוצה","חדש","כחול","שמלה","הזה שם","יפה","נחמד","עניבה","זול","כמה עולה","מאה","שחור","ג'קט","חנות","יקר","אלף","יין","מסעדה","אודון","טנפורה","ארוחה קבועה","ok then","אהממ","פעם אחת","פעמיים","שלוש פעמים","ארבע פעמים","כדור אורז","סלט","מרק מיסו","סובה","תה שחור","גלידה","קצת ","אייס קופי","למרות זאת","שוחה","לבד","בסופי שבוע","דרמה","לבלות זמן ","עם","חברים","ספורט","בשבתות","קונה","לצאת לבילוי","משחקי וידאו","טניס","שוחה","ג’ודו","מדבר","סרטי וידאו","יום ראשון","רציפים","שער כרטיסים","קומה ראשונה","יש ","פח אשפה","כספומט","מעבר","אין","שירותים","מונית","קומה תת קרקעית","וויפי","מעלית","אאוטלט","רחוק","טלפון","קומה שנייה","מדרגות","קרוב","מכונות לממכר","בית קפה","יציאה"];
+	const array2 = ["te re bi","e I ga","ki ki ma su","yo ku","yo mi ma su"," shi ma su","nyu u so","hon","za shi","mi ma su","to ki do ki","ya ki yu","ta no shi","o n ga ku","pan","san do ichi","ta be ma su ","ma ii ni chi","ko hii","ju su","no mi ma su","ma ii a sa","a sa go han","hi ru go han","be n to u","ba n go han","ma ii ban","ima nan ji de su ka","go ro","san ji goro de su","fu ku","sai fu","fu rui","da sai","wa cho to","ti sha tsu","su kaa to","ku tsu","ga ho shi ","atarashi","a oi","do re su","a no","su te ki","ii","ne ku ta i","ya su ii","ii ku ra desu ka","Hi ya ku","ku ro i","ja ke to","mi se","ta ka ii","sen","en","re su to ran","udon","te n pu ra","te ii sho ku","ja a","e e to","hi to stu","fu ta tsu","mi tsu","yo tsu","o ni gi ri","sa ra da","mi so shi ru","so ba","ko u cha","a i su ku ri mu","su ko shi","ai su ko hii","be mo","o yo gi ma su","hi to ri de","shu ma tsu ","do ra ma","a so bi ma su","to","to mo da shi","su po tsu","do yo u bi","kai ma su","de ka ke ma su","gee mu","te ni su","ni chi yo bi","ju o dou","ha na shi ma su","do u ga","ni chi yo u bi","ho mu","kai sa tsu","ii kai","a ri ma su ka","go mi ba ko","ee ti emu wa","no ri ka e","a ri ma sen","o te a rai","ta ku shi","chi ka","wa ii fa ii","e re be ta","con sen to","toi","den wa","ni kai","ka I dan","chi ka ii","ji han ki","ca fe","de gu chi"];
+	
+	 
+	
+const array1 = ["שוחה","לבד","בסופי שבוע","דרמה","לבלות זמן ","עם","חברים","ספורט","בשבתות","קונה","לצאת לבילוי","משחקי וידאו","טניס","שוחה","ג’ודו","מדבר","סרטי וידאו","יום ראשון","רציפים","שער כרטיסים","קומה ראשונה","יש ","פח אשפה","כספומט","מעבר","אין","שירותים","מונית","קומה תת קרקעית","וויפי","מעלית","אאוטלט","רחוק","טלפון","קומה שנייה","מדרגות","קרוב","מכונות לממכר","בית קפה","יציאה","תאי אחסון"];
+const array2 = ["o <b>yo</b> gi ma su","hi <b>to</b> ri de","<b>shu</b> ma tsu ","<b>do</b> ra ma","a <b>so</b> bi ma su","to","to <b>mo</b> da <b>shi</b>","su <b>po</b> tsu","do <b>yo</b> u bi","<b>kai</b> ma su","de <b>ka</b> ke ma su","<b>gee</b> mu","<b>te</b> ni su","<b>ni</b> chi yo bi","<b>ju</b> o dou","ha <b>na</b> shi ma su","<b>do</b> u ga","<b>ni</b> chi yo u bi","<b>ho</b> mu","<b>kai</b> sa tsu","<b>ii</b> kai","a ri <b>ma</b> su ka","go <b>mi</b> ba ko","ee ti <b>emu</b> wa","no ri <b>ka e</b>","a <b>ri</b> ma <b>sen</b>","o <b>te</b> a <b>rai</b>","<b>ta</b> ku shi","<b>chi</b> ka","<b>wa ii</b> fa ii","e re <b>be ta</b>","<b>con</b> sen to","toi","<b>den</b> wa","<b>ni</b> kai","<b>ka I</b> dan","chi <b>ka ii</b>","ji <b>han</b> ki","<b>ca</b> fe","<b>de</b> gu chi","<b>ko in</b> ro ka"]; 
+ 
+	*/
+	
+const array1 = ["תאי אחסון","תודה","רדיו","עיתון","להתעורר","תמיד","באיזה שעה","כדור עף","כל שבוע","שעה ארבע","להכין","מחר","שבוע הבא","לישון","אימייל","לעשות","מקלחת","לקחת","פסטה","לרוץ"];
+const array2 = ["<b>ko in</b> ro ka","<b>do u</b> mo","<b>ra</b> ji o","<b>shin</b> bun","<b>o</b> ki ma su","<b>I</b> tsu mo","<b>nan</b> ji ni","ba <b>re</b> bo ru","<b>mai</b> shu","<b>yo</b> ji","tsu <b>ku ri</b> ma su","<b>a</b> shi ta","<b>ra I</b> shu","<b>ne</b> ma su","<b>me</b> ru","o <b>yo bi</b> ma su","<b>sha</b> wa","o <b>aa bi</b> ma su","<b>pa</b> su ta","ha <b>shi ri</b> ma su"];
+	
+   /* 
+const array1 = [];
+const array2 = [];
+
+
+ */
+//alert(array2.length);
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  globvar=1;
+  
+    let lastIndex = null;
+    let pool = [];
+
+    function refillPool(range) {
+      pool = Array.from({length: range}, (_, i) => i);
+    }
+
+    function pickRandom(range) {
+      if (pool.length === 0) {
+        refillPool(range);
+      }
+      const pos = Math.floor(Math.random() * pool.length);
+      const index = pool.splice(pos, 1)[0]; // remove one index
+      return index;
+    }
+	function makenext(){
+		globvar=1;
+		  const range = Math.min(Number(document.getElementById("count").value) || 3, array1.length);
+		  if (pool.length === 0) {
+			refillPool(range);
+		  }
+		  lastIndex = pickRandom(range);
+		  document.getElementById("output1").textContent =array1[lastIndex];
+		  document.getElementById("output2").textContent = ""; // clear old translation
+	}
+    document.getElementById("btnPick").addEventListener("click",  makenext);
+	document.addEventListener("keydown", function(event) {
+  // key === " " works too, but "Spacebar" is older
+  //alert(1);
+  if (event.code === "Space") {
+    event.preventDefault(); // prevents scrolling down the page
+    document.getElementById("btnPick").click();
+  }else if (event.key === "z") {
+    event.preventDefault(); // prevents scrolling down the page
+    document.getElementById("btnTranslate").click();
+  }
+});
+
+function maketrans(){
+if(globvar==1){
+      if (lastIndex === null) {
+        document.getElementById("output2").textContent = "Pick from Array 1 first!";
+      } else {
+        document.getElementById("output2").innerHTML =array2[lastIndex];
+      }
+	 }else{
+	 document.getElementById("output2").innerHTML =array1[lastIndex];
+	 }
+
+}
+
+    document.getElementById("btnTranslate").addEventListener("click",maketrans );
+	
+    
+
+
+document.getElementById("btnPick2").addEventListener("click", () => {
+		globvar=-1;
+      const range = Math.min(Number(document.getElementById("count").value) || 3, array1.length);
+      if (pool.length === 0) {
+        refillPool(range);
+      }
+      lastIndex = pickRandom(range);
+      document.getElementById("output1").innerHTML =array2[lastIndex];
+      document.getElementById("output2").textContent = ""; // clear old translation
+    });
+
+
+    // initialize pool with default range
+    refillPool(Number(document.getElementById("count").value));
+  </script>
+</body>
+
+  <script>
+    // שני מערכים מקבילים
+    //const array1 = ["from","I live in","lively","quiet","clean/beautiful","very","town","family","busy","older sister","office worker","younger sister","older brother","younger brother","nurse","noisy","famous","college student","my wife","my daughter","my husband","my son","smart"];
+    //const array2 = ["shu shin","ni sun de I ma su","ni gi ya ka","shi zu ka","ki re I","to te mo","ma chi","ka zo ku","I so ga shi","a ne","ka I sha I n","I mo u to ","a ni","o to u to","ka n go shi","u ru sa I","yu u me I","da I ga ku se I","tsu ma","mu su me","o to wa","mu su ko","a ta ma ga I"];
+
+
+
+//const array1 = ["from","I live in","lively","quiet","clean/beautiful","very","town","family","busy","older sister","office worker","younger sister","older brother","younger brother","nurse","noisy","famous","college student","my wife","my daughter"/*,"my husband","my son","smart"*/];
+//const array2 = ["shu shin","ni sun de I ma su","ni gi ya ka","shi zu ka","ki re I","to te mo","ma chi","ka zo ku","I so ga shi","a ne","ka I sha I n","I mo u to ","a ni","o to u to","ka n go shi","u ru sa I","yu u me I","da I ga ku se I","tsu ma","mu su me"/*,"o to wa","mu su ko","a ta ma ga I"*/];
+   
+</script>
+
+
+</html>
