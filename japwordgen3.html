@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Array Random Test - Fixed Default</title>
+<style>
+body {font-family:sans-serif;font-size:28px;padding:40px;}
+button {font-size:26px;margin-right:10px;}
+#word {font-size:48px;margin-top:40px;}
+#translation {font-size:38px;margin-top:10px;color:#333;}
+label {display:inline-flex;align-items:center;gap:10px;direction:ltr;margin-right:20px;}
+fieldset {margin-top:20px;padding:20px;border:2px solid #ccc;border-radius:10px;}
+</style>
+</head>
+<body>
+
+<h2>Array Random Test - Fixed Default</h2>
+
+<fieldset id="checkboxContainer">
+  <legend>Select Arrays</legend>
+</fieldset>
+
+<label>Range:
+  <input type="number" id="rangeInput" value="11" min="1" max="200">
+</label>
+
+<br><br>
+<button id="btnPick">Random Word</button>
+<button id="btnTranslate">Translate</button>
+
+<div id="word"></div>
+<div id="translation"></div>
+
+<script>
+window.addEventListener("DOMContentLoaded", () => {
+
+// ---------- ARRAYS ----------
+window.array1 = ["בוקר טוב","ערב טוב","נעים להכיר","אני","שם","סליחה / סליחה להפריע","מצטער","תודה רבה","בבקשה / אשמח לעזרתך","נעים להכיר.","אני ערן.","קוראים לי ערן.","איך קוראים לך?","הגעתי מישראל.","אני מבין יפנית קצת.","עוד פעם בבקשה.","לילה טוב","לאט בבקשה.","lively","quiet","clean/beautiful","family","busy","office worker","noisy","famous","college student","my wife","my daughter","my husband","my son","smart","שלום","לחם","סנדויץ","אוכל","כל יום","קפה","מיץ","שותה","כל בוקר","ארוחת בוקר","ארוחת צהריים","ארוחת צהריים בקופסא","ארוחת ערב","כל ערב","מצטער","בבקשה","קוראים לי ערן","הגעתי מישראל"];
+window.array1b = ["ohayō gozaimasu","konbanwa","hajimemashite","watashi","namae","sumimasen","gomen nasai","arigatō gozaimasu","onegai shimasu","hajimemashite.","watashi wa Eran desu.","Eran to iimasu.","o-namae wa?","Isuraeru kara kimashita.","nihongo wa sukoshi dake wakarimasu.","mō ichido onegai shimasu.","oyasumi","yukkuri onegai shimasu.","ni gi ya ka","shi zu ka","ki re I","ka zo ku","I so ga shi","ka I sha I n","u ru sa I","yu u me I","da I ga ku se I","tsu ma","mu su me","o to wa","mu su ko","a ta ma ga I","konnichiwa","pan","<b>san<b> do ichi","ta be <b>ma</b> su ","ma ii ni <b>chi</b>","<b>ko</b> hii","<b>ju</b> su","<b>no</b> mi ma su","<b>ma</b> ii a sa","a <b>sa</b> go <b>han</b>","hi ru <b>go</b> han","<b>be</b> n to u","<b>ba</b> n go han","<b>ma</b> ii ban","gomen nasai","onegai shimasu","Eran to iimasu.","Isuraeru kara kimashita."];
+
+window.array2 = ["מצטער","בבקשה","קוראים לי ערן.","הגעתי מישראל.","אני מבין יפנית קצת.","עוד פעם בבקשה.","לילה טוב","לאט בבקשה.","לחם","סנדויץ","אוכל","כל יום","קפה","מיץ","שותה","כל בוקר","ארוחת בוקר","ארוחת צהריים","ארוחת צהריים בקופסא","ארוחת ערב","כל ערב","מסעדה","אודון","טנפורה","ארוחה קבועה","ok then","אהממ","פעם אחת","פעמיים","שלוש פעמים","ארבע פעמים","כדור אורז","סלט","מרק מיסו","סובה","תה שחור","גלידה","קצת ","אייס קופי","למרות זאת"];
+window.array2b = ["gomen nasai","onegai shimasu","Eran to iimasu.","Isuraeru kara kimashita.","nihongo wa sukoshi dake wakarimasu.","mō ichido onegai shimasu.","oyasumi","yukkuri onegai shimasu.","pan","<b>san</b> do ichi","ta be <b>ma</b> su ","ma ii ni <b>chi</b>","<b>ko</b> hii","<b>ju</b> su","<b>no</b> mi ma su","<b>ma</b> ii a sa","a <b>sa</b> go han","hi ru <b>go</b> han","<b>be</b> n to u","<b>ba</b> n go han","<b>ma</b> ii ban", "<b>re</b> su to ran","u<b>don</b>","<b>te n</b> pu ra","<b>te ii</b> sho ku","ja a","<b>e e</b> to","hi <b>to</b> stu","fu <b>ta</b> tsu","mi tsu","yo tsu","<b>o</b> ni gi ri","<b>sa</b> ra da","mi <b>so</b> shi ru","<b>so</b> ba","<b>ko</b> u cha","<b>a i</b> su ku ri mu","su <b>ko</b> shi","<b>ai</b> su ko hii","be <b>mo</b>"];
+
+window.array3 = ["שוחה","לבד","בסופי שבוע","דרמה","לבלות זמן ","עם","חברים","ספורט","בשבתות","קונה","לצאת לבילוי","משחקי וידאו","טניס","שוחה","ג’ודו","מדבר","סרטי וידאו","יום ראשון"];
+window.array3b = ["o <b>yo</b> gi ma su","hi <b>to</b> ri de","<b>shu</b> ma tsu ","<b>do</b> ra ma","a <b>so</b> bi ma su","to","to <b>mo</b> da <b>shi</b>","su <b>po</b> tsu","do <b>yo</b> u bi","<b>kai</b> ma su","de <b>ka</b> ke ma su","<b>gee</b> mu","<b>te</b> ni su","<b>ni</b> chi yo bi","<b>ju</b> o dou","ha <b>na</b> shi ma su","<b>do</b> u ga","<b>ni</b> chi yo u bi"];
+
+window.array4 = ["רציפים","שער כרטיסים","קומה ראשונה","יש ","פח אשפה","כספומט","מעבר","אין","שירותים","מונית","קומה תת קרקעית","וויפי","מעלית","אאוטלט","רחוק","טלפון","קומה שנייה","מדרגות","קרוב","מכונות לממכר","בית קפה","יציאה","תאי אחסון"];
+window.array4b = ["<b>ho</b> mu","<b>kai</b> sa tsu","<b>ii</b> kai","a ri <b>ma</b> su ka","go <b>mi</b> ba ko","ee ti <b>emu</b> wa","no ri <b>ka e</b>","a <b>ri</b> ma <b>sen</b>","o <b>te</b> a <b>rai</b>","<b>ta</b> ku shi","<b>chi</b> ka","<b>wa ii</b> fa ii","e re <b>be ta</b>","<b>con</b> sen to","toi","<b>den</b> wa","<b>ni</b> kai","<b>ka I</b> dan","chi <b>ka ii</b>","ji <b>han</b> ki","<b>ca</b> fe","<b>de</b> gu chi","<b>ko in</b> ro ka"];
+
+window.array5 = ["טלויזיה","סרטים","שומע","לעיתים קרובות","/קורא","משחק","חדשות","ספרים","מגזינים","/צופה","לפעמים","כדורס בסיס","כיף","מוסיקה","לחם","סנדויץ","אוכל","כל יום","קפה","מיץ","שותה","כל בוקר","ארוחת בוקר","ארוחת צהריים","ארוחת צהריים בקופסא","ארוחת ערב","כל ערב","מה השעה","בערך","השעה בערך שלוש","בגדים","ארנק","ישן","מזויע","לא ממש אוהב","טישרט","חצאית","נעליים","אני רוצה","חדש","כחול","שמלה","הזה שם","יפה","נחמד","עניבה","זול","כמה עולה","מאה","שחור","ג'קט","חנות","יקר","אלף","יין","מסעדה","אודון","טנפורה","ארוחה קבועה","ok then","אהממ","פעם אחת","פעמיים","שלוש פעמים","ארבע פעמים","כדור אורז","סלט","מרק מיסו","סובה","תה שחור","גלידה","קצת ","אייס קופי","למרות זאת","שוחה","לבד","בסופי שבוע","דרמה","לבלות זמן ","עם","חברים","ספורט","בשבתות","קונה","לצאת לבילוי","משחקי וידאו","טניס","שוחה","ג’ודו","מדבר","סרטי וידאו","יום ראשון","רציפים","שער כרטיסים","קומה ראשונה","יש ","פח אשפה","כספומט","מעבר","אין","שירותים","מונית","קומה תת קרקעית","וויפי","מעלית","אאוטלט","רחוק","טלפון","קומה שנייה","מדרגות","קרוב","מכונות לממכר","בית קפה","יציאה"];
+window.array5b = ["te re bi","e I ga","ki ki ma su","yo ku","yo mi ma su"," shi ma su","nyu u so","hon","za shi","mi ma su","to ki do ki","ya ki yu","ta no shi","o n ga ku","pan","san do ichi","ta be ma su ","ma ii ni chi","ko hii","ju su","no mi ma su","ma ii a sa","a sa go han","hi ru go han","be n to u","ba n go han","ma ii ban","ima nan ji de su ka","go ro","san ji goro de su","fu ku","sai fu","fu rui","da sai","wa cho to","ti sha tsu","su kaa to","ku tsu","ga ho shi ","atarashi","a oi","do re su","a no","su te ki","ii","ne ku ta i","ya su ii","ii ku ra desu ka","Hi ya ku","ku ro i","ja ke to","mi se","ta ka ii","sen","en","re su to ran","udon","te n pu ra","te ii sho ku","ja a","e e to","hi to stu","fu ta tsu","mi tsu","yo tsu","o ni gi ri","sa ra da","mi so shi ru","so ba","ko u cha","a i su ku ri mu","su ko shi","ai su ko hii","be mo","o yo gi ma su","hi to ri de","shu ma tsu ","do ra ma","a so bi ma su","to","to mo da shi","su po tsu","do yo u bi","kai ma su","de ka ke ma su","gee mu","te ni su","ni chi yo bi","ju o dou","ha na shi ma su","do u ga","ni chi yo u bi","ho mu","kai sa tsu","ii kai","a ri ma su ka","go mi ba ko","ee ti emu wa","no ri ka e","a ri ma sen","o te a rai","ta ku shi","chi ka","wa ii fa ii","e re be ta","con sen to","toi","den wa","ni kai","ka I dan","chi ka ii","ji han ki","ca fe","de gu chi"];
+
+window.array6 = ["תאי אחסון","תודה","רדיו","עיתון","להתעורר","תמיד","באיזה שעה","כדור עף","כל שבוע","שעה ארבע","להכין","מחר","שבוע הבא","לישון","אימייל","לעשות","מקלחת","לקחת","פסטה","לרוץ"];
+window.array6b = ["<b>ko in</b> ro ka","<b>do u</b> mo","<b>ra</b> ji o","<b>shin</b> bun","<b>o</b> ki ma su","<b>I</b> tsu mo","<b>nan</b> ji ni","ba <b>re</b> bo ru","<b>mai</b> shu","<b>yo</b> ji","tsu <b>ku ri</b> ma su","<b>a</b> shi ta","<b>ra I</b> shu","<b>ne</b> ma su","<b>me</b> ru","o <b>yo bi</b> ma su","<b>sha</b> wa","o <b>aa bi</b> ma su","<b>pa</b> su ta","ha <b>shi ri</b> ma su"];
+
+
+window.array7 = ["בויפרנד","גירלפרינד","this is","קוריאה","ויאטנם","סין","אני מחבב","תחביבים","מיפן","מסתורין","אימה","פנטזיה","איזה סוג","קומדיה","רומנטיקה","אקשן"];
+window.array7b = ["<b>ka</b> re shi","<b>ka</b> no jo","<b>ko</b> chi ra","<b>kan</b> ko ku","<b>be</b> to namu ","<b>chu</b> go ku","ga <b>su</b> ki desu","<b>shu</b> mi","ni<b>hon</b> no","<b>mi</b> su te ri","<b>ho</b> ra","<b>fan</b> ta ji","<b>don</b> na","<b>ko</b> me di","<b>ren</b> aii","<b>a</b> ku shon"];
+
+window.array8 = ["בית","לעבור דירה","מרווח","דירה","עכשיו","עדיין","מטבח","צפוף","יש לי","מואר","סלון","מיטה","מדף ספרים","מיזוג אויר","שואב אבק","שולחן","כיסא","פוטון","אולי, קרוב לוודאי","מיקרו וויב","שולחן עבודה","מקרר","מתי","בשבוע הזה","מכונת כביסה","מתי"];
+window.array8b = ["I <b>e</b>","hi <b>ko</b> shi ma su","hi <b>ro</b> ii","a <b>pa</b> to","<b>I</b> ma","<b>ma</b> da","<b>ki</b> chin","se <b>mai</b>","<b>ga</b> a ri ma su","<b>a</b> ka ru ii","<b>ri</b> bi n gu","<b>be</b> do","<b>hon</b> da na","e <b>a</b> kon","<b>so</b> u ji ki","<b>tei</b> bu ru","I <b>su</b>","fu <b>ton</b>","<b>ta</b> bun","den shi <b>ren</b> ji","tsu <b>ku</b> e","<b>rei zo</b> u ko","<b>I</b> tsu","<b>kon</b> shu","<b>sen</b> ta ku ki","<b>i</b> tsu"];
+
+window.array9 = ["רכבת","תחנה","מגיע","ל... מגיע ל..","אוטובוס","הבא","עוד מעט","פארק","עשר דקות","עשרים דקות","מהיר","כמה זמן זה לוקח","לוקח","בערך","שעות","הרבה זמן","התחנה האחרונה"];
+window.array9b = ["<b>den</b> sha","<b>e</b>ki","<b>I</b> ki ma su","ni","<b>ba</b> su","<b>tsu</b> gi","<b>mo</b> u su gu","<b>ko</b> u en","<b>Ju</b> poon","ni <b>ju</b> poon","ha <b>ya</b> i","do no gu <b>rai</b> ka ka ri <b>ma</b> su ka","<b>ka</b> ka ri ma su","gu <b>rai</b>","ji <b>kan</b>","na <b>gai</b>","<b>shu</b> ten"];
+
+window.array10 = ["עיר שקטה","מקום","truly","בניין","מה זה?","that","temple מקדשים","חנות","קינוח","פרח","הר","shrine מקדש","גבוה","חטיף","מזכרת","גלויה"];
+window.array10b = ["ni gi ya ka <b>na</b> to shi","<b>to</b> ko ro","hon <b>to</b> u ni","<b>ta</b> te mo no","<b>nan</b> de su ka","A <b>re</b>","<b>o</b> te ra","ya ","de <b>za</b> to","<b>ha</b> na","<b>ya</b> ma","<b>jin</b> ja","ta <b>kai</b>","o <b>ka</b> shi","o <b>mi</b> ya <b>ge</b>","po su to <b>ca</b> do"];
+
+window.array11 = ["עומד לשבת","מסוכן","אני מרגיש רע","בסדר ok","בית חולים","משטרה","אמבולנס","אפס","בן כמה אתה","מספר טלפון","אלרגיה","קרוב לכאן","הוריך","לנוח","היום","תרופה","to make sure"];
+window.array11b = ["su <b>ari</b> ma su","a bu <b>nai</b>","gu <b>ai</b> ga wa <b>rui</b>","dai <b>jo</b> bu","Bi <b>yo</b> in","<b>kei</b> sa tsu","<b>kyu</b> kyu sha","<b>ze</b> ro","<b>nan</b> sai de su ka","<b>den</b> wa <b>ban</b> go","a <b>re</b> ru gi","chi <b>ka</b> ku","<b>go</b> ryo shin","ya <b>su mi</b> ma su","ki <b>yo</b>","ku <b>su</b> ri","<b>chan</b> to"];
+
+window.array12 = ["גשום","אביב","מזג האויר","חמים","שמשי","חוף ים","קיץ","ימים","בריכה","חם","זיקוקין","חופשה","יולי","סתיו","מעונן","ספטמבר","הערב","קונצרט","קר","מושלג","חורף","קקאו","מעיינות חמים"];
+window.array12b = ["a <b>me</b>","<b>ha</b> ru","<b>ten</b> ki","a <b>ta</b> ta kai","ha <b>re</b>","<b>u</b> mi","na <b>tsu</b>","hi ","<b>pu</b> ru","a <b>tsui</b>","ha <b>na</b> bi","<b>Ya</b> su mi","<b>shi</b> chi <b>gat</b> su","<b>a</b>ki","ku <b>mo</b> ri","<b>ku gat</b>su","<b>kon</b> ban","<b>kon</b> sa to","sa <b>mui</b>","yu <b>ki</b>","fu <b>yu</b>","<b>ko</b> ko a","<b>on</b> sen"];
+
+
+
+
+
+window.array13 = ["בוקר טוב","ערב טוב","נעים להכיר","אני","שם","סליחה / סליחה להפריע","מצטער","תודה רבה","בבקשה / אשמח לעזרתך","נעים להכיר.","אני ערן.","קוראים לי ערן.","איך קוראים לך?","הגעתי מישראל.","אני מבין יפנית קצת.","עוד פעם בבקשה.","לילה טוב","לאט בבקשה.","lively","quiet","clean/beautiful","family","busy","office worker","noisy","famous","college student","my wife","my daughter","my husband","my son","smart","שלום","לחם","סנדויץ","אוכל","כל יום","קפה","מיץ","שותה","כל בוקר","ארוחת בוקר","ארוחת צהריים","ארוחת צהריים בקופסא","ארוחת ערב","כל ערב","מצטער","בבקשה","קוראים לי ערן","הגעתי מישראל",
+
+"מצטער","בבקשה","קוראים לי ערן.","הגעתי מישראל.","אני מבין יפנית קצת.","עוד פעם בבקשה.","לילה טוב","לאט בבקשה.","לחם","סנדויץ","אוכל","כל יום","קפה","מיץ","שותה","כל בוקר","ארוחת בוקר","ארוחת צהריים","ארוחת צהריים בקופסא","ארוחת ערב","כל ערב","מסעדה","אודון","טנפורה","ארוחה קבועה","ok then","אהממ","פעם אחת","פעמיים","שלוש פעמים","ארבע פעמים","כדור אורז","סלט","מרק מיסו","סובה","תה שחור","גלידה","קצת ","אייס קופי","למרות זאת",
+
+"שוחה","לבד","בסופי שבוע","דרמה","לבלות זמן ","עם","חברים","ספורט","בשבתות","קונה","לצאת לבילוי","משחקי וידאו","טניס","שוחה","ג’ודו","מדבר","סרטי וידאו","יום ראשון",
+
+"רציפים","שער כרטיסים","קומה ראשונה","יש ","פח אשפה","כספומט","מעבר","אין","שירותים","מונית","קומה תת קרקעית","וויפי","מעלית","אאוטלט","רחוק","טלפון","קומה שנייה","מדרגות","קרוב","מכונות לממכר","בית קפה","יציאה","תאי אחסון",
+
+"טלויזיה","סרטים","שומע","לעיתים קרובות","/קורא","משחק","חדשות","ספרים","מגזינים","/צופה","לפעמים","כדורס בסיס","כיף","מוסיקה","לחם","סנדויץ","אוכל","כל יום","קפה","מיץ","שותה","כל בוקר","ארוחת בוקר","ארוחת צהריים","ארוחת צהריים בקופסא","ארוחת ערב","כל ערב","מה השעה","בערך","השעה בערך שלוש","בגדים","ארנק","ישן","מזויע","לא ממש אוהב","טישרט","חצאית","נעליים","אני רוצה","חדש","כחול","שמלה","הזה שם","יפה","נחמד","עניבה","זול","כמה עולה","מאה","שחור","ג'קט","חנות","יקר","אלף","יין","מסעדה","אודון","טנפורה","ארוחה קבועה","ok then","אהממ","פעם אחת","פעמיים","שלוש פעמים","ארבע פעמים","כדור אורז","סלט","מרק מיסו","סובה","תה שחור","גלידה","קצת ","אייס קופי","למרות זאת","שוחה","לבד","בסופי שבוע","דרמה","לבלות זמן ","עם","חברים","ספורט","בשבתות","קונה","לצאת לבילוי","משחקי וידאו","טניס","שוחה","ג’ודו","מדבר","סרטי וידאו","יום ראשון","רציפים","שער כרטיסים","קומה ראשונה","יש ","פח אשפה","כספומט","מעבר","אין","שירותים","מונית","קומה תת קרקעית","וויפי","מעלית","אאוטלט","רחוק","טלפון","קומה שנייה","מדרגות","קרוב","מכונות לממכר","בית קפה","יציאה",
+
+"תאי אחסון","תודה","רדיו","עיתון","להתעורר","תמיד","באיזה שעה","כדור עף","כל שבוע","שעה ארבע","להכין","מחר","שבוע הבא","לישון","אימייל","לעשות","מקלחת","לקחת","פסטה","לרוץ",
+
+
+"בויפרנד","גירלפרינד","this is","קוריאה","ויאטנם","סין","אני מחבב","תחביבים","מיפן","מסתורין","אימה","פנטזיה","איזה סוג","קומדיה","רומנטיקה","אקשן",
+
+"בית","לעבור דירה","מרווח","דירה","עכשיו","עדיין","מטבח","צפוף","יש לי","מואר","סלון","מיטה","מדף ספרים","מיזוג אויר","שואב אבק","שולחן","כיסא","פוטון","אולי, קרוב לוודאי","מיקרו וויב","שולחן עבודה","מקרר","מתי","בשבוע הזה","מכונת כביסה","מתי",
+
+"רכבת","תחנה","מגיע","ל... מגיע ל..","אוטובוס","הבא","עוד מעט","פארק","עשר דקות","עשרים דקות","מהיר","כמה זמן זה לוקח","לוקח","בערך","שעות","הרבה זמן","התחנה האחרונה",
+
+"עיר שקטה","מקום","truly","בניין","מה זה?","that","temple מקדשים","חנות","קינוח","פרח","הר","shrine מקדש","גבוה","חטיף","מזכרת","גלויה",
+
+"עומד לשבת","מסוכן","אני מרגיש רע","בסדר ok","בית חולים","משטרה","אמבולנס","אפס","בן כמה אתה","מספר טלפון","אלרגיה","קרוב לכאן","הוריך","לנוח","היום","תרופה","to make sure",
+
+"גשום","אביב","מזג האויר","חמים","שמשי","חוף ים","קיץ","ימים","בריכה","חם","זיקוקין","חופשה","יולי","סתיו","מעונן","ספטמבר","הערב","קונצרט","קר","מושלג","חורף","קקאו","מעיינות חמים"];
+
+window.array13b = ["ohayō gozaimasu","konbanwa","hajimemashite","watashi","namae","sumimasen","gomen nasai","arigatō gozaimasu","onegai shimasu","hajimemashite.","watashi wa Eran desu.","Eran to iimasu.","o-namae wa?","Isuraeru kara kimashita.","nihongo wa sukoshi dake wakarimasu.","mō ichido onegai shimasu.","oyasumi","yukkuri onegai shimasu.","ni gi ya ka","shi zu ka","ki re I","ka zo ku","I so ga shi","ka I sha I n","u ru sa I","yu u me I","da I ga ku se I","tsu ma","mu su me","o to wa","mu su ko","a ta ma ga I","konnichiwa","pan","<b>san<b> do ichi","ta be <b>ma</b> su ","ma ii ni <b>chi</b>","<b>ko</b> hii","<b>ju</b> su","<b>no</b> mi ma su","<b>ma</b> ii a sa","a <b>sa</b> go <b>han</b>","hi ru <b>go</b> han","<b>be</b> n to u","<b>ba</b> n go han","<b>ma</b> ii ban","gomen nasai","onegai shimasu","Eran to iimasu.","Isuraeru kara kimashita.",
+
+"gomen nasai","onegai shimasu","Eran to iimasu.","Isuraeru kara kimashita.","nihongo wa sukoshi dake wakarimasu.","mō ichido onegai shimasu.","oyasumi","yukkuri onegai shimasu.","pan","<b>san</b> do ichi","ta be <b>ma</b> su ","ma ii ni <b>chi</b>","<b>ko</b> hii","<b>ju</b> su","<b>no</b> mi ma su","<b>ma</b> ii a sa","a <b>sa</b> go han","hi ru <b>go</b> han","<b>be</b> n to u","<b>ba</b> n go han","<b>ma</b> ii ban", "<b>re</b> su to ran","u<b>don</b>","<b>te n</b> pu ra","<b>te ii</b> sho ku","ja a","<b>e e</b> to","hi <b>to</b> stu","fu <b>ta</b> tsu","mi tsu","yo tsu","<b>o</b> ni gi ri","<b>sa</b> ra da","mi <b>so</b> shi ru","<b>so</b> ba","<b>ko</b> u cha","<b>a i</b> su ku ri mu","su <b>ko</b> shi","<b>ai</b> su ko hii","be <b>mo</b>",
+
+"o <b>yo</b> gi ma su","hi <b>to</b> ri de","<b>shu</b> ma tsu ","<b>do</b> ra ma","a <b>so</b> bi ma su","to","to <b>mo</b> da <b>shi</b>","su <b>po</b> tsu","do <b>yo</b> u bi","<b>kai</b> ma su","de <b>ka</b> ke ma su","<b>gee</b> mu","<b>te</b> ni su","<b>ni</b> chi yo bi","<b>ju</b> o dou","ha <b>na</b> shi ma su","<b>do</b> u ga","<b>ni</b> chi yo u bi",
+
+"<b>ho</b> mu","<b>kai</b> sa tsu","<b>ii</b> kai","a ri <b>ma</b> su ka","go <b>mi</b> ba ko","ee ti <b>emu</b> wa","no ri <b>ka e</b>","a <b>ri</b> ma <b>sen</b>","o <b>te</b> a <b>rai</b>","<b>ta</b> ku shi","<b>chi</b> ka","<b>wa ii</b> fa ii","e re <b>be ta</b>","<b>con</b> sen to","toi","<b>den</b> wa","<b>ni</b> kai","<b>ka I</b> dan","chi <b>ka ii</b>","ji <b>han</b> ki","<b>ca</b> fe","<b>de</b> gu chi","<b>ko in</b> ro ka",
+
+"te re bi","e I ga","ki ki ma su","yo ku","yo mi ma su"," shi ma su","nyu u so","hon","za shi","mi ma su","to ki do ki","ya ki yu","ta no shi","o n ga ku","pan","san do ichi","ta be ma su ","ma ii ni chi","ko hii","ju su","no mi ma su","ma ii a sa","a sa go han","hi ru go han","be n to u","ba n go han","ma ii ban","ima nan ji de su ka","go ro","san ji goro de su","fu ku","sai fu","fu rui","da sai","wa cho to","ti sha tsu","su kaa to","ku tsu","ga ho shi ","atarashi","a oi","do re su","a no","su te ki","ii","ne ku ta i","ya su ii","ii ku ra desu ka","Hi ya ku","ku ro i","ja ke to","mi se","ta ka ii","sen","en","re su to ran","udon","te n pu ra","te ii sho ku","ja a","e e to","hi to stu","fu ta tsu","mi tsu","yo tsu","o ni gi ri","sa ra da","mi so shi ru","so ba","ko u cha","a i su ku ri mu","su ko shi","ai su ko hii","be mo","o yo gi ma su","hi to ri de","shu ma tsu ","do ra ma","a so bi ma su","to","to mo da shi","su po tsu","do yo u bi","kai ma su","de ka ke ma su","gee mu","te ni su","ni chi yo bi","ju o dou","ha na shi ma su","do u ga","ni chi yo u bi","ho mu","kai sa tsu","ii kai","a ri ma su ka","go mi ba ko","ee ti emu wa","no ri ka e","a ri ma sen","o te a rai","ta ku shi","chi ka","wa ii fa ii","e re be ta","con sen to","toi","den wa","ni kai","ka I dan","chi ka ii","ji han ki","ca fe","de gu chi",
+
+"<b>ko in</b> ro ka","<b>do u</b> mo","<b>ra</b> ji o","<b>shin</b> bun","<b>o</b> ki ma su","<b>I</b> tsu mo","<b>nan</b> ji ni","ba <b>re</b> bo ru","<b>mai</b> shu","<b>yo</b> ji","tsu <b>ku ri</b> ma su","<b>a</b> shi ta","<b>ra I</b> shu","<b>ne</b> ma su","<b>me</b> ru","o <b>yo bi</b> ma su","<b>sha</b> wa","o <b>aa bi</b> ma su","<b>pa</b> su ta","ha <b>shi ri</b> ma su",
+
+"<b>ka</b> re shi","<b>ka</b> no jo","<b>ko</b> chi ra","<b>kan</b> ko ku","<b>be</b> to namu ","<b>chu</b> go ku","ga <b>su</b> ki desu","<b>shu</b> mi","ni<b>hon</b> no","<b>mi</b> su te ri","<b>ho</b> ra","<b>fan</b> ta ji","<b>don</b> na","<b>ko</b> me di","<b>ren</b> aii","<b>a</b> ku shon",
+
+"I <b>e</b>","hi <b>ko</b> shi ma su","hi <b>ro</b> ii","a <b>pa</b> to","<b>I</b> ma","<b>ma</b> da","<b>ki</b> chin","se <b>mai</b>","<b>ga</b> a ri ma su","<b>a</b> ka ru ii","<b>ri</b> bi n gu","<b>be</b> do","<b>hon</b> da na","e <b>a</b> kon","<b>so</b> u ji ki","<b>tei</b> bu ru","I <b>su</b>","fu <b>ton</b>","<b>ta</b> bun","den shi <b>ren</b> ji","tsu <b>ku</b> e","<b>rei zo</b> u ko","<b>I</b> tsu","<b>kon</b> shu","<b>sen</b> ta ku ki","<b>i</b> tsu",
+
+"<b>den</b> sha","<b>e</b>ki","<b>I</b> ki ma su","ni","<b>ba</b> su","<b>tsu</b> gi","<b>mo</b> u su gu","<b>ko</b> u en","<b>Ju</b> poon","ni <b>ju</b> poon","ha <b>ya</b> i","do no gu <b>rai</b> ka ka ri <b>ma</b> su ka","<b>ka</b> ka ri ma su","gu <b>rai</b>","ji <b>kan</b>","na <b>gai</b>","<b>shu</b> ten",
+
+"ni gi ya ka <b>na</b> to shi","<b>to</b> ko ro","hon <b>to</b> u ni","<b>ta</b> te mo no","<b>nan</b> de su ka","A <b>re</b>","<b>o</b> te ra","ya ","de <b>za</b> to","<b>ha</b> na","<b>ya</b> ma","<b>jin</b> ja","ta <b>kai</b>","o <b>ka</b> shi","o <b>mi</b> ya <b>ge</b>","po su to <b>ca</b> do",
+
+"su <b>ari</b> ma su","a bu <b>nai</b>","gu <b>ai</b> ga wa <b>rui</b>","dai <b>jo</b> bu","Bi <b>yo</b> in","<b>kei</b> sa tsu","<b>kyu</b> kyu sha","<b>ze</b> ro","<b>nan</b> sai de su ka","<b>den</b> wa <b>ban</b> go","a <b>re</b> ru gi","chi <b>ka</b> ku","<b>go</b> ryo shin","ya <b>su mi</b> ma su","ki <b>yo</b>","ku <b>su</b> ri","<b>chan</b> to",
+
+"a <b>me</b>","<b>ha</b> ru","<b>ten</b> ki","a <b>ta</b> ta kai","ha <b>re</b>","<b>u</b> mi","na <b>tsu</b>","hi ","<b>pu</b> ru","a <b>tsui</b>","ha <b>na</b> bi","<b>Ya</b> su mi","<b>shi</b> chi <b>gat</b> su","<b>a</b>ki","ku <b>mo</b> ri","<b>ku gat</b>su","<b>kon</b> ban","<b>kon</b> sa to","sa <b>mui</b>","yu <b>ki</b>","fu <b>yu</b>","<b>ko</b> ko a","<b>on</b> sen"];
+
+
+
+window.array14 = ["לרוץ","לקחת","להתעורר","אני מחבב","לעבור דירה","עכשיו","מואר","לוקח זמן","מגיע","הרבה זמן","התחנה האחרונה","עוד מעט","מקום","to make sure","מזכרת","קרוב לכאן","הוריך","חטיף","מסוכן","בית חולים","אמבולנס","בניין","מספר טלפון","לנוח","תרופה","לנוח"];
+window.array14b = ["ha shi ri ma su","o aa bi ma su","o ki ma su","ga su ki desu","hi ko shi ma su","I ma","a ka ru ii","ka ka ri ma su","I ki ma su","na gai","shu ten","mo u su gu","to ko ro","chan to","o mi ya ge","chi ka ku","go ryo shin","o ka shi","a bu nai","Bi yo in","kyu kyu sha","ta te mo no","den wa ban go","ya su mi ma su","ku su ri","ya su mi ma su"];
+
+
+
+//  13 is all up to 13
+// 14 is all words i'm having trouble remembering
+
+
+window.array15 = ["צאצאים","יש לך exists (בשימוש כלפי אדם, יש בו מן החיבה)","נחמד","אחות גדולה","אח קטן","מאמן","אוסטרליה","לדעת","טאיוואן","אנגלית","אח גדול","מלזיה","אחת","שתיים","ילדים","סיאול","ילדים","אוקי"];
+window.array15b = ["kyou da I","ga ima su","ya sa shi","O ne san","o to o to san","ko chi","o su to ra ri ya","ga deki ma su","tai wan","ei go","o ni I san","ma re shi a","ga hitori","Ga fu tari","ko do mo","so u ru","o ko san","dai jo bu"];
+window.array16 = ["יכול לעשות","נעים להכיר","עבודה","בית","לחזור","מטלות","אחרי"];
+window.array16b = ["<b>de</b> ki ma su","<b>do</b> u zo yo <b>ro</b> shi ku","shi <b>go</b> to","<b>u</b> chi","<b>ka</b> e ri ma su","<b>ka</b> ji","<b>a</b> to"];
+
+
+window.array17 = ["יכול לעשות","נעים להכיר","עבודה","בית","לחזור","מטלות","אחרי","בית ספר","לעזור","לנקות","what","שיעורי בית","כל מיני","there is/are","כביסה","מי who","easy","אמבטיה","tough","then","take (a bath)","מתיחות"];
+window.array17b = ["<b>de</b> ki ma su","<b>do</b> u zo yo <b>ro</b> shi ku","shi <b>go</b> to","<b>u</b> chi","<b>ka</b> e ri ma su","<b>ka</b> ji","<b>a</b> to","ga <b>ko</b>","<b>te</b> tsu da I <b>ma</b> su","<b>So</b> u ji","<b>na</b> ni","<b>shu</b> ku dai","I <b>ro</b> I <b>ro</b>","ga <b>ari</b> ma su","<b>sen</b> ta ku","<b>da</b> re","ya <b>sa</b> shi","<b>o</b> fu ro","<b>tai</b> hen","<b>so</b> shi te","<b>ha</b> ri ma su","<b>Su</b> to <b>re</b> chi"];
+
+
+
+/*
+window.array10 = [];
+window.array10b = [];
+
+window.array8 = [];
+window.array8b = [];
+
+
+
+*/
+
+
+//alert(window.array1.length+" --- "+window.array1b.length);
+
+
+
+// ---------- LOGIC ----------
+const arrays = [];
+const translations = [];
+
+for (let i = 1; i <= 20; i++) {
+  const w = window[`array${i}`];
+  const t = window[`array${i}b`];
+  if (!w || !t) continue;
+  arrays.push(w);
+  translations.push(t);
+  console.log(`Detected pair ${i}:`, w.length, "words");
+}
+console.log("All detected arrays:", arrays.map((_,i)=>`array${i+1}`));
+
+let combinedWords = [];
+let combinedTrans = [];
+let pool = [];
+let lastIndex = null;
+
+const container = document.getElementById("checkboxContainer");
+arrays.forEach((arr, i) => {
+  const label = document.createElement("label");
+  label.innerHTML = `<input type="checkbox" id="chk${i+1}"> Array ${i+1}`;
+  container.appendChild(label);
+});
+
+// Default: first array checked
+if (arrays.length > 0) {
+  const def = document.getElementById("chk1");
+  if (def) def.checked = true;
+}
+
+function refillPool(){
+  pool = Array.from({length: combinedWords.length}, (_, i) => i);
+  console.log("New pool created:", pool.length, "items");
+}
+
+function pickRandom(){
+  if (pool.length === 0) refillPool();
+  const pos = Math.floor(Math.random() * pool.length);
+  const idx = pool.splice(pos, 1)[0];
+  console.log(`Picked: ${combinedWords[idx]} (index ${idx})`);
+  if (pool.length === 0) console.log("Pool exhausted – reshuffling next round");
+  return idx;
+}
+
+function buildCombined(){
+  combinedWords = [];
+  combinedTrans = [];
+  const currentRange = Number(document.getElementById("rangeInput").value) || 11;
+  arrays.forEach((arr, i) => {
+    const chk = document.getElementById(`chk${i+1}`);
+    if (chk && chk.checked) {
+      combinedWords.push(...arr.slice(0, currentRange));
+      combinedTrans.push(...translations[i].slice(0, currentRange));
+    }
+  });
+  if (combinedWords.length === 0 && arrays.length > 0) {
+    const lastIdx = arrays.length - 1;
+    combinedWords.push(...arrays[lastIdx].slice(0, currentRange));
+    combinedTrans.push(...translations[lastIdx].slice(0, currentRange));
+  }
+  refillPool();
+  console.log("Combined set built:", combinedWords.length, "items");
+}
+
+function showNext(){
+  if (combinedWords.length === 0) buildCombined();
+  const idx = pickRandom();
+  lastIndex = idx;
+  document.getElementById("word").innerHTML = combinedWords[idx];
+  document.getElementById("translation").textContent = "";
+}
+
+function showTranslation(){
+  if (lastIndex === null) {
+    document.getElementById("translation").textContent = "Pick a word first.";
+    return;
+  }
+  document.getElementById("translation").innerHTML = combinedTrans[lastIndex];
+}
+
+document.getElementById("btnPick").addEventListener("click", showNext);
+document.getElementById("btnTranslate").addEventListener("click", showTranslation);
+document.getElementById("rangeInput").addEventListener("input", buildCombined);
+arrays.forEach((_, i) => {
+  document.getElementById(`chk${i+1}`).addEventListener("change", buildCombined);
+});
+
+buildCombined();
+});
+
+
+document.addEventListener("keydown", function(event) {
+  
+  if (event.code === "Space") {
+    event.preventDefault(); // prevents scrolling down the page
+    document.getElementById("btnPick").click();
+  }else if (event.key === "z") {
+    event.preventDefault(); // prevents scrolling down the page
+    document.getElementById("btnTranslate").click();
+  }
+});
+</script>
+
+</body>
+</html>
